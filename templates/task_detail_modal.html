@@ -1,0 +1,86 @@
+{% load static %}
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert-info">
+                <h5 class="modal-title" id="detailModalLabel">タスク #{{ task.pk }} 詳細</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>タイトル</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.title }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>詳細</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.detail|linebreaksbr }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>ステータス</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.get_status_display }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>担当者</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.person_in_charge }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>期限</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.deadline_datetime|date:"Y-m-d H:i:s" }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>登録日時</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.create_datetime|date:"Y-m-d H:i:s" }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>更新日時</strong>
+                        </div>
+                        <div class="col-9">
+                            {{ task.update_datetime|date:"Y-m-d H:i:s" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                <button class="btn btn-primary" type="button" name="edit" value="{{ task.pk }}">編集</button>
+                <button class="btn btn-danger" type="button" name="delete" value="{{ task.pk }}">削除</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{% static 'js/handlers_detail.js' %}"></script>

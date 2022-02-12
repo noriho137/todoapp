@@ -1,0 +1,74 @@
+{% load static %}
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    更新しました。
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                <strong>タイトル</strong>
+            </div>
+            <div class="col-9">
+                {{ task.title }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <strong>詳細</strong>
+            </div>
+            <div class="col-9">
+                {{ task.body|linebreaksbr }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <strong>ステータス</strong>
+            </div>
+            <div class="col-9">
+                {{ task.get_status_display }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <strong>担当者</strong>
+            </div>
+            <div class="col-9">
+                {{ task.person_in_charge }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <strong>期限</strong>
+            </div>
+            <div class="col-9">
+                {{ task.deadline_datetime|date:"Y-m-d H:i:s" }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <strong>登録日時</strong>
+            </div>
+            <div class="col-9">
+                {{ task.create_datetime|date:"Y-m-d H:i:s" }}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <strong>更新日時</strong>
+            </div>
+            <div class="col-9">
+                {{ task.update_datetime|date:"Y-m-d H:i:s" }}
+            </div>
+        </div>
+    </div>
+</div>

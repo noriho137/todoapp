@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+
+{% block title %}ToDoApp{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-4">
+            <h2>ToDo: {{ todo|length }}</h2>
+            {% for todo_ in todo %}
+            <div class="card border
+                    {% if todo_.deadline_datetime|remaining_days < 0 %}
+                    border-danger alert-danger
+                    {% elif todo_.deadline_datetime|remaining_days < 7 %}
+                    border-warning alert-warning
+                    {% elif todo_.deadline_datetime|remaining_days < 30 %}
+                    border-success alert-success
+                    {% else %}
+                    border-primary alert-primary
+                    {% endif %} mb-2">
+                <div class="card-body text-dark">
+                    <div class="card-title">
+                        <h5>{{ todo_.title }}</h5>
+                    </div>
+                    <div class="card-text d-flex justify-content-between align-items-center">
+                        Deadline: {{ todo_.deadline_datetime|date:'Y-m-d' }}
+                        <button id="todo-{{ todo_.pk }}" class="btn btn-sm btn-outline-secondary stretched-link" name="todo" value="{{ todo_.pk }}" data-method="get" data-action="{% url 'task_detail' todo_.pk %}">Detail</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <h2>Doing: {{ doing|length }}</h2>
+            {% for doing_ in doing %}
+            <div class="card border
+                    {% if doing_.deadline_datetime|remaining_days < 0 %}
+                    border-danger alert-danger
+                    {% elif doing_.deadline_datetime|remaining_days < 7 %}
+                    border-warning alert-warning
+                    {% elif doing_.deadline_datetime|remaining_days < 30 %}
+                    border-success alert-success
+                    {% else %}
+                    border-primary alert-primary
+                    {% endif %} mb-2">
+                <div class="card-body text-dark">
+                    <div class="card-title">
+                        <h5>{{ doing_.title }}</h5>
+                    </div>
+                    <div class="card-text d-flex justify-content-between align-items-center">
+                        Deadline: {{ doing_.deadline_datetime|date:'Y-m-d' }}
+                        <button id="doing-{{ doing_.pk }}" class="btn btn-sm btn-outline-secondary stretched-link" name="doing" value="{{ doing_.pk }}" data-method="get" data-action="{% url 'task_detail' doing_.pk %}">Detail</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <h2>Done: {{ done|length }}</h2>
+            {% for done_ in done %}
+            <div class="card border
+                    {% if done_.deadline_datetime|remaining_days < 0 %}
+                    border-danger alert-danger
+                    {% elif done_.deadline_datetime|remaining_days < 7 %}
+                    border-warning alert-warning
+                    {% elif done_.deadline_datetime|remaining_days < 30 %}
+                    border-success alert-success
+                    {% else %}
+                    border-primary alert-primary
+                    {% endif %} mb-2">
+                <div class="card-body text-dark">
+                    <div class="card-title">
+                        <h5>{{ done_.title }}</h5>
+                    </div>
+                    <div class="card-text d-flex justify-content-between align-items-center">
+                        Deadline: {{ done_.deadline_datetime|date:'Y-m-d' }}
+                        <button id="done-{{ done_.pk }}" class="btn btn-sm btn-outline-secondary stretched-link" name="done" value="{{ done_.pk }}" data-method="get" data-action="{% url 'task_detail' done_.pk %}">Detail</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal1"></div>
+<div id="myModal2"></div>
+<div id="myModal3"></div>
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert-info">
+                <h5 class="modal-title" id="createModalLabel">タスク登録</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <form method="post">
+                                {% csrf_token %}
+                                <p>
+                                    <label>{{ form.title.label }}:</label>
+                                    {{ form.title }}
+                                </p>
+                                <p>
+                                    <label>{{ form.detail.label }}:</label>
+                                    {{ form.detail }}
+                                </p>
+                                <p>
+                                    <label>{{ form.status.label }}:</label>
+                                    {{ form.status }}
+                                </p>
+                                <p>
+                                    <label>{{ form.person_in_charge.label }}:</label>
+                                    {{ form.person_in_charge }}
+                                </p>
+                                <p>
+                                    <label>{{ form.deadline_datetime.label }}:</label>
+                                    <span class="input-group date" id="datetimepicker_home" data-target-input="nearest">
+                                        {{ form.deadline_datetime }}
+                                        <span class="input-group-append" data-target="#datetimepicker_home" data-toggle="datetimepicker">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </span>
+                                    </span>
+                                </p>
+                                <div class="text-right">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">キャンセル</button>
+                                    <button class="btn btn-primary" type="submit">登録</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'js/handlers_home.js' %}"></script>
+{% endblock %}
